@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <script>
+            const socket = io();
+            socket.on("postAdded", (post) => {
+                console.log("new post is ", post);
+            });
+        </script>
+        <h2>See console for live event logs</h2>
+    </body>
+</html>

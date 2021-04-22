@@ -1,0 +1,40 @@
+### Fetch all posts
+GET http://localhost:3000/posts
+
+### Fetch all posts for single user
+GET http://localhost:3000/posts/user?id=6080a4d7f94df70fedc0e98a
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkwNDQwNjQsImV4cCI6MTYxOTIxNjg2NH0.eCu0o7dv67jUEahPTQ5rvU8Ts178TeobNJxjfIRiE7Y
+
+
+### Fetch feed for user
+GET http://localhost:3000/posts/feed?id=6080a4d4f94df70fedc0e989&page=3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkwNDM1NTcsImV4cCI6MTYxOTIxNjM1N30.oMQP11dfQEP_gL4uQyoGo5DwAwQLBPYFDCiOTAMTJPI
+
+### Create Post
+POST http://localhost:3000/posts/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkwNDQwNjQsImV4cCI6MTYxOTIxNjg2NH0.eCu0o7dv67jUEahPTQ5rvU8Ts178TeobNJxjfIRiE7Y
+
+{
+  "userID": "6080a4dbf94df70fedc0e98b",
+  "caption": "post 7 umer 3"
+}
+
+### Get post by ID
+GET http://localhost:3000/posts/6080a146f8adbc0f5647a72e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkwNDI2NTMsImV4cCI6MTYxOTIxNTQ1M30.l1V5cLP4ED-cva1GDX9WHWJlrTmCb5o8EseP0cGHq3o
+
+
+### Delete post by ID
+GET http://localhost:3000/posts/delete/607f02847145cb81d81c3bfa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTg5NjUwNDUsImV4cCI6MTYxOTEzNzg0NX0.FfKamjk2wrPfBKKArfrpDn0Fn3QWaFQYpT3ucBFQ8b8
+
+### Update post by ID
+POST http://localhost:3000/posts/update/607f02847145cb81d81c3bfa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTg5NjUwNDUsImV4cCI6MTYxOTEzNzg0NX0.FfKamjk2wrPfBKKArfrpDn0Fn3QWaFQYpT3ucBFQ8b8
+
+{
+  "userID": "607e1871455654601c347c12",
+  "caption": "This is the test caption updation for the post"
+}

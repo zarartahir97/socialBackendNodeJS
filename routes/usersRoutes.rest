@@ -1,0 +1,59 @@
+### Fetch all users
+GET http://localhost:3000/users
+
+### Signup
+POST http://localhost:3000/users/signup
+Content-Type: application/json
+
+{
+  "name": "Umer 3",
+  "email": "umer3@social.com",
+  "password": "umersaleem",
+  "DOB": "04/08/1990"
+}
+
+### Login
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+  "email": "umer2@social.com",
+  "password": "umersaleem"
+}
+
+### Get user by ID
+GET http://localhost:3000/users/607ef98d5c54c380778755bc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTg5NjUwNDUsImV4cCI6MTYxOTEzNzg0NX0.FfKamjk2wrPfBKKArfrpDn0Fn3QWaFQYpT3ucBFQ8b8
+
+
+### Delete user by ID
+GET http://localhost:3000/users/delete/607cd2046c3541454405e6ed
+
+
+### Update user by ID
+POST http://localhost:3000/users/update/607ef98d5c54c380778755bc
+Content-Type: application/json
+
+{
+  "name": "Umer 1",
+  "email": "umer1@social.com"
+}
+
+### Follow user
+POST http://localhost:3000/users/follow
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTkwNDM1NTcsImV4cCI6MTYxOTIxNjM1N30.oMQP11dfQEP_gL4uQyoGo5DwAwQLBPYFDCiOTAMTJPI
+
+{
+  "userID": "6080a4d4f94df70fedc0e989",
+  "followerID": "6080a4dbf94df70fedc0e98b"
+}
+
+### Unfollow user
+POST http://localhost:3000/users/unfollow
+Content-Type: application/json
+
+{
+  "userID": "607ef98d5c54c380778755bc",
+  "followerID": "607effd47c0f3781863c3c7d"
+}
