@@ -1,9 +1,10 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
+import express, {Request, Response, Application} from "express";
+import mongoose, {Connection} from "mongoose";
+import {Server, Socket} from "socket.io";
+const app: Application = express();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const io = new Server(server);
 
 app.use(express.json());
 server.listen(3000, () => {
@@ -15,10 +16,9 @@ app.set("view engine", "ejs");
 app.set("socketIO", io);
 
 //Setting up feed write just to see live events log
-app.get("/feed", (req, res) => {
+app.get("/feed", (req: Request, res: Response) => {
     res.render("feed");
 });
-
 //Setting user routes
 const usersRoutes = require("./routes/users");
 app.use("/users", usersRoutes);
@@ -27,7 +27,7 @@ app.use("/users", usersRoutes);
 const postsRoutes = require("./routes/posts");
 app.use("/posts", postsRoutes);
 
-mongoose.connect(process.env.DB_URL, {
+mongoose.connect(process.env.DB_URL!, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -38,6 +38,6 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to db successfully"));
 
 // setting up sockets
-io.on("connection", (socket) => {
+io.on("connection", (socket: Socket) => {
     console.log("A user is connected with socket id:", socket.id);
 });
