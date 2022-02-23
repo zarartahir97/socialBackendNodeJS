@@ -1,25 +1,14 @@
-import { Response } from "express";
-
-export interface userInterface {
-  name: String,
-  email: String,
-  password: String,
-  DOB: Date,
-  gender: String,
-  followingList: String[],
-  createdAt: Date,
-  updatedAt: Date,
-}
-
-export interface postInterface {
-  userID: String,
-  caption: String,
-  createdAt: Date,
-  updatedAt: Date,
-}
+import { Response } from 'express';
+import { userInterface } from './models/user';
+import { postInterface } from './models/post';
+import { JwtPayload } from 'jsonwebtoken';
 
 export interface APIResponse extends Response {
-  decodedData?: any
-  post?: any,
-  user?: any,
+  decodedData?: JwtPayload | string,
+  post?: postInterface,
+  user?: userInterface,
+}
+
+export interface ErrorResponse  {
+  message: string
 }
