@@ -1,16 +1,16 @@
 import express, { Request, NextFunction, Router } from 'express';
 import { APIResponse } from '../interface';
-import { userInterface } from '../models/user';
 import jwt from 'jsonwebtoken';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
+import User from '../models/user';
+import authentication from './middleware/authentication';
+
 const router: Router = express.Router();
-const User = require('../models/user');
-const authentication = require('./middleware/authentication');
 
 //Get all users
 router.get('/', async (req: Request, res: APIResponse) => {
 	try {
-		const users: userInterface[] = await User.find();
+		const users = await User.find();
 		res.json(users);
 	} catch (error: any) {
 		res.status(500).json({ message: error.message });
@@ -20,7 +20,7 @@ router.get('/', async (req: Request, res: APIResponse) => {
 //Create user
 router.post('/signup', async (req: Request, res: APIResponse) => {
 	try {
-		const existingUser: userInterface = await User.findOne({ email: req.body.email });
+		const existingUser = await User.findOne({ email: req.body.email });
 		if (existingUser != null)
 			return res.status(400).json({ message: 'User already exists' });
 		const hash = await bcrypt.hash(req.body.password, 10);
@@ -31,7 +31,7 @@ router.post('/signup', async (req: Request, res: APIResponse) => {
 			DOB: req.body.DOB,
 			gender: req.body.gender,
 		});
-		const newUser: userInterface = await user.save();
+		const newUser = await user.save();
 		res.json(newUser);
 	} catch (error: any) {
 		res.status(400).json({ message: error.message });
@@ -41,13 +41,13 @@ router.post('/signup', async (req: Request, res: APIResponse) => {
 //Get User
 router.post('/login', async (req: Request, res: APIResponse) => {
 	try {
-		const user: userInterface = await User.findOne({ email: req.body.email });
+		const user = await User.findOne({ email: req.body.email });
 		if (user == null)
 			return res.status(401).json({ message: 'Invalid credentials' });
 		const result = await bcrypt.compare(req.body.password, user.password);
 		if (!result)
 			return res.status(401).json({ message: 'Invalid credentials' });
-		const loggedInUser: userInterface = await user.save();
+		const loggedInUser = await user.save();
 		res.json({
 			...loggedInUser.toObject(),
 			token: getToken(loggedInUser.email, loggedInUser.id),
@@ -82,7 +82,7 @@ router.post('/update/:id', authentication, getUser, async (req: Request, res: AP
 	}
     res.user!.updatedAt = Date.now();
     try {
-    	const updatedUser: userInterface = await res.user!.save();
+    	const updatedUser = await res.user!.save();
     	res.json(updatedUser);
     } catch (error: any) {
     	res.status(400).json({ message: error.message });
@@ -92,7 +92,7 @@ router.post('/update/:id', authentication, getUser, async (req: Request, res: AP
 //Follow User
 router.post('/follow', authentication, async (req: Request, res: APIResponse) => {
 	try {
-		const user: userInterface = await User.findById(req.body.userID);
+		const user = await User.findById(req.body.userID);
 		if (user === null)
 			return res.status(404).json({ message: 'Cannot find user' });
 		if (
@@ -108,12 +108,12 @@ router.post('/follow', authentication, async (req: Request, res: APIResponse) =>
 });
 
 //Unfollow User
-router.post('/unfollow', authentication, async (req: Request, res: APIResponse) => {
+router.post('/unfollow', authentication, async (req, res: APIResponse) => {
 	try {
-		const user: userInterface = await User.findById(req.body.userID);
+		const user = await User.findById(req.body.userID);
 		if (user === null)
 			return res.status(404).json({ message: 'Cannot find user' });
-		const followingList: string[] = user.followingList.filter(
+		const followingList = user.followingList.filter(
 			(id) => id !== req.body.followerID
 		);
 		user.followingList = followingList;
@@ -125,7 +125,7 @@ router.post('/unfollow', authentication, async (req: Request, res: APIResponse) 
 
 //Middleware to get the user from ID
 async function getUser(req: Request, res: APIResponse, next: NextFunction) {
-	let user: userInterface;
+	let user;
 	try {
 		user = await User.findById(req.params.id);
 		if (user === null)

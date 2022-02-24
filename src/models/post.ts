@@ -1,12 +1,5 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { userInterface } from './user';
-
-export interface postInterface extends Document {
-    userID: userInterface['_id'],
-    caption: string,
-    createdAt: Date,
-    updatedAt: number,
-  }
+import mongoose, { Schema } from 'mongoose';
+import { postInterface } from '../interface';
 
 const postSchema: Schema = new mongoose.Schema({
 	userID: {
@@ -32,4 +25,4 @@ const postSchema: Schema = new mongoose.Schema({
 	},
 });
 
-module.exports = mongoose.model<postInterface>('Post', postSchema);
+export default mongoose.model<postInterface>('Post', postSchema);

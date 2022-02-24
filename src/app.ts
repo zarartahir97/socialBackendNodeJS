@@ -2,8 +2,10 @@ require('dotenv').config();
 import express, {Request, Response, Application} from 'express';
 import mongoose from 'mongoose';
 import {Server, Socket} from 'socket.io';
+import http from 'http';
+
 const app: Application = express();
-const server = require('http').createServer(app);
+const server = http.createServer(app);
 const io = new Server(server);
 
 app.use(express.json());
