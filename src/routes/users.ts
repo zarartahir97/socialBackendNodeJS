@@ -84,7 +84,7 @@ router.post('/update/:id', authentication, getUser, async (req: Request, res: AP
     try {
     	const updatedUser = await res.user!.save();
     	res.json(updatedUser);
-    } catch (error: any) {
+    } catch(error: any) {
     	res.status(400).json({ message: error.message });
     }
 });
@@ -138,10 +138,10 @@ async function getUser(req: Request, res: APIResponse, next: NextFunction) {
 }
 
 function getToken(email: string, id: string) {
-	const token = jwt.sign({ email, id }, 'socialSecretKey', {
+	const token = jwt.sign({ email, id }, process.env.SECRET_KEY!, {
 		expiresIn: '2d',
 	});
 	return token;
 }
 
-module.exports = router;
+export default router;

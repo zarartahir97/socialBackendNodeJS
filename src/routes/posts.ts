@@ -91,7 +91,7 @@ router.post('/update/:id', authentication, getPost, async (req: Request, res: AP
     try {
     	const updatedPost = await res.post!.save();
     	res.json(updatedPost);
-    } catch (error: any) {
+    } catch(error: any) {
     	res.status(400).json({ message: error.message });
     }
 });
@@ -111,4 +111,4 @@ async function getPost(req: Request, res: APIResponse, next: NextFunction) {
 	next();
 }
 
-module.exports = router;
+export default router;

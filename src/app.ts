@@ -1,4 +1,4 @@
-require('dotenv').config();
+import 'dotenv/config';
 import express, {Request, Response, Application} from 'express';
 import mongoose from 'mongoose';
 import {Server, Socket} from 'socket.io';
@@ -22,11 +22,11 @@ app.get('/feed', (req: Request, res: Response) => {
 	res.render('feed');
 });
 //Setting user routes
-const usersRoutes = require('./routes/users');
+import usersRoutes from './routes/users';
 app.use('/users', usersRoutes);
 
 //Setting user routes
-const postsRoutes = require('./routes/posts');
+import postsRoutes from './routes/posts';
 app.use('/posts', postsRoutes);
 
 mongoose.connect(process.env.DB_URL!, {
@@ -43,3 +43,5 @@ db.once('open', () => console.log('Connected to db successfully'));
 io.on('connection', (socket: Socket) => {
 	console.log('A user is connected with socket id:', socket.id);
 });
+
+export default app;
