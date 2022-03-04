@@ -1,7 +1,7 @@
 import express, { Request, NextFunction, Router } from 'express';
 import { APIResponse } from '../interface';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import User from '../models/user';
 import authentication from './middleware/authentication';
 
